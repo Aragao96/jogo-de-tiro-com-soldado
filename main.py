@@ -10,6 +10,8 @@ black = (255,255,255)
 space_width, space_heigth = 100,124
 borda = pygame.Rect(width/2 - 5, 0, 10,height)
 fps = 60
+bala_vel = 8
+max_balas = 3 
 vel = 5
 
 soldado1 = pygame.image.load(os.path.join('/home/karenrafael/Documentos/jogo-de-tiro-com-soldado/sordadin.jpg'))
@@ -47,14 +49,27 @@ def soldado2_movimento(keys_pressed, sold2):
 
 def main():
     sold1 = pygame.Rect(0,0, space_width, space_heigth)
-    sold2 = pygame.Rect(805,2, space_width, space_heigth)  
+    sold2 = pygame.Rect(805,2, space_width, space_heigth)
+
+    sold1_balas = []
+    sold2_balas = []
     clock = pygame.time.Clock()
-    run = True
+    run = True 
     while run:
         clock.tick(fps)
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 run = False
+
+            if evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_LCTRL and len(sold1_balas) < max_balas:
+                    bala = pygame.Rect(sold1.x + sold1.width, sold1.y + sold1.height/2 - 2, 10, 5)
+                    sold1_balas.append(bala)
+
+
+                #if event.key == pygame.K_RCTRL:
+
+        print(sold1_balas)
         keys_pressed = pygame.key.get_pressed()
         soldado1_movimento(keys_pressed, sold1)            
         soldado2_movimento(keys_pressed, sold2)
